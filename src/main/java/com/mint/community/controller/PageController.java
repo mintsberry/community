@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-public class TestController {
+public class PageController {
     @RequestMapping("/{path}")
     public String page(@PathVariable String path){
         return path;

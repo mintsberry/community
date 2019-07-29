@@ -1,0 +1,27 @@
+spring:
+  profiles:
+    active: dev
+
+---
+
+spring:
+  profiles: dev
+
+logging:
+  level:
+    com.mint: debug
+
+github:
+  client:
+    id: 13a5ddea610fa0692e1b
+    secret: 47f0b3d78c380f52f53908699fe20091d077457a
+  redirect:
+    url: http://localhost:8080/callback
+
+---
+spring:
+    profiles: test
+
+---
+spring:
+  profiles: prod
