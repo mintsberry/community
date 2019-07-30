@@ -6,7 +6,11 @@ spring:
 
 spring:
   profiles: dev
-
+  datasource:
+    url: jdbc:mysql://localhost:3306/ssm?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai&allowPublicKeyRetrieval=true
+    username: root
+    password: "041104"
+    driver-class-name: com.mysql.cj.jdbc.Driver
 logging:
   level:
     com.mint: debug
@@ -17,7 +21,9 @@ github:
     secret: 47f0b3d78c380f52f53908699fe20091d077457a
   redirect:
     url: http://localhost:8080/callback
-
+mybatis:
+  configuration:
+    map-underscore-to-camel-case: true
 ---
 spring:
     profiles: test
