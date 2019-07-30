@@ -3,10 +3,19 @@ package com.mint.community.pojo;
 public class User {
     private int id;
     private String name;
-    private String accountId;
+    private int accountId;
     private String token;
     private Long gmtCreate;
     private Long getModified;
+    private String avatarUrl;
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
 
     public int getId() {
         return id;
@@ -24,11 +33,11 @@ public class User {
         this.name = name;
     }
 
-    public String getAccountId() {
+    public int getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(String accountId) {
+    public void setAccountId(int accountId) {
         this.accountId = accountId;
     }
 

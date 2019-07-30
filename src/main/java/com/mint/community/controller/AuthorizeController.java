@@ -11,13 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.util.UUID;
 
 @Controller
@@ -50,10 +47,16 @@ public class AuthorizeController {
             String token = UUID.randomUUID().toString();
             user.setToken(token);
             user.setName(githubUser.getLogin());
-            user.setAccountId(String.valueOf(githubUser.getId()));
+            user.setAccountId(githubUser.getId());
             user.setGmtCreate(System.currentTimeMillis());
             user.setGetModified(user.getGmtCreate());
-            userMapper.insUsers(user);
+            user.setAvatarUrl(githubUser.getAvatarUrl());
+            User selUser = userMapper.selById(user.getAccountId());
+            if (selUser == null) {
+                userMapper.insUsers(user);
+            } else {
+                userMapper.updTokenById(user);
+            }
             //写入Cookie
             response.addCookie(new Cookie("token", token));
             logger.debug("User login" + githubUser);

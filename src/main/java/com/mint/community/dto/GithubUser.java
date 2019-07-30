@@ -3,8 +3,17 @@ package com.mint.community.dto;
 public class GithubUser {
     private String login;
     private String name;
-    private long id;
+    private int id;
     private String bio;
+    private String avatarUrl;
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
+    }
 
     public String getLogin() {
         return login;
@@ -22,11 +31,11 @@ public class GithubUser {
         this.name = name;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

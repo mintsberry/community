@@ -11,9 +11,12 @@ spring:
     username: root
     password: "041104"
     driver-class-name: com.mysql.cj.jdbc.Driver
+  thymeleaf:
+    cache: false
 logging:
   level:
     com.mint: debug
+
 
 github:
   client:
