@@ -58,7 +58,9 @@ public class AuthorizeController {
                 userMapper.updTokenById(user);
             }
             //写入Cookie
-            response.addCookie(new Cookie("token", token));
+            Cookie cookie = new Cookie("token", token);
+            cookie.setMaxAge(60 * 60 * 24 * 7);
+            response.addCookie(cookie);
             logger.debug("User login" + githubUser);
             return "redirect:index";
         } else {

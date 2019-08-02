@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<title th:text="${question.title}"></title>
+		<link th:href="@{/webjars/bootstrap/3.4.1/css/bootstrap.css}" rel="stylesheet">
+		<link th:href="@{/webjars/bootstrap/3.4.1/css/bootstrap-theme.css}" rel="stylesheet">
+		<link th:href="@{/css/community.css}" rel="stylesheet">
+		<!--		jquery引入要早于bootstrap-->
+		<script th:src="@{/webjars/jquery/3.4.1/jquery.js}" type="text/javascript"></script>
+		<script th:src="@{/webjars/bootstrap/3.4.1/js/bootstrap.js}" type="text/javascript"></script>
+	</head>
+	<body>
+		<div th:replace="naviagtion :: head"></div>
+		<div class="container-fluid">
+			<div class="row main ">
+				<div class="col-lg-9 col-md-12" >
+					<div class="col-lg-12" >
+						<h2>
+							<span th:text="${question.title}"></span>
+						</h2>
+						<div class="thread_status" th:text="'作者:' + ${question.user.getName()} + ' | ' + ${question.getViewCount()} + '次阅读 | 发布时间' + ${#dates.format(question.gmtCreate, 'MM-dd HH:mm')}"></div>
+						<hr/>
+					</div>
+
+					<div class="col-lg-12">
+						<span  th:text="${question.description}"></span>
+						<hr/>
+					</div>
+
+					<div class="col-lg-12" >
+						<a th:href="@{'/publish/' + ${question.id}}" class="commit-menu" th:if="${session.users != null && question.user.accountId == session.users.accountId}" >
+							<span class="glyphicon glyphicon-pencil">编辑</span>
+						</a>
+					</div>
+				</div>
+				<div class="col-lg-3 col-md-12 rightTip">
+					<div>发起人</div>
+						<div class="media">
+							<div class="media-left media-middle">
+								<a href="#">
+									<img class="media-object img-rounded list_icon" th:src="${question.getUser().getAvatarUrl()}">
+								</a>
+							</div>
+							<div class="media-body">
+								<h4 th:text="${question.user.name}"> </h4>
+							</div>
+						</div>
+					<hr>
+					<div>相关问题</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

@@ -18,3 +18,20 @@ body{
     font-size: 12px;
     color: #999;
 }
+.description{
+    text-overflow: ellipsis;
+    white-space:nowrap;
+    overflow:hidden;
+}
+.profile .section{
+    margin-top: 14px;
+}
+.profile .actives{
+    background: #9995;
+}
+.rightTip{
+    margin-top: 14px;
+}
+.commit-menu{
+    color: #999;
+}
