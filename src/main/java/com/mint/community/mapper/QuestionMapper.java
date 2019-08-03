@@ -32,4 +32,6 @@ public interface QuestionMapper {
     void updViewAdd(int id);
     @Update("update question set comment_Count = comment_Count+ 1 where id = #{id}")
     void updCommentAdd(int id);
+    @Select("select * from question where tag regexp #{regex} and id != #{id}")
+    List<Question> selRelevantQue(int id, String regex);
 }

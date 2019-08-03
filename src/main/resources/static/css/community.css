@@ -14,8 +14,16 @@ body{
     width: 48px;
     height: 48px;
 }
+.comment_icon{
+    width: 60px;
+    height: 60px;
+}
 .thread_status{
     font-size: 12px;
+    color: #999;
+}
+.question_status{
+    font-size: 13px;
     color: #999;
 }
 .description{
@@ -34,4 +42,35 @@ body{
 }
 .commit-menu{
     color: #999;
+}
+.comment{
+    margin: 10px 0px;
+}
+。comment_content{
+    margin: 5px;
+    font-size: 14px;
+}
+.icon {
+    color: #999;
+    font-size: 15px;
+    cursor: pointer;
+}
+.icon:hover{
+    color: #333;
+}
+.two_lv_comment{
+    margin-top: 12px;
+}
+.two_lv_comment .comment_icon{
+    width: 48px;
+    height: 48px;
+}
+.tw_section{
+    border: 1px solid #9995;
+    border-radius: 5px;
+    margin: 8px 0px;
+    padding-top: 8px;
+}
+.topics{
+    margin-left: 14px;
 }

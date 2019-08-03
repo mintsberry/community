@@ -7,11 +7,19 @@ public class Comment {
   private int parentId;
   private long type;
   private String content;
-  private long commentator;
+  private int commentator;
   private long gmtCreate;
   private long gmtModified;
   private long likeCount;
+  private long commentCount;
 
+  public long getCommentCount() {
+    return commentCount;
+  }
+
+  public void setCommentCount(long commentCount) {
+    this.commentCount = commentCount;
+  }
 
   public int getId() {
     return id;
@@ -49,11 +57,11 @@ public class Comment {
   }
 
 
-  public long getCommentator() {
+  public int getCommentator() {
     return commentator;
   }
 
-  public void setCommentator(long commentator) {
+  public void setCommentator(int commentator) {
     this.commentator = commentator;
   }
 

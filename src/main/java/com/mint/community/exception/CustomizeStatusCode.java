@@ -6,7 +6,8 @@ public enum CustomizeStatusCode implements ICustomizeErrorCode{
     ACCOUNT_NOT_LOGIN(2002,"未登录"),
     QUESTION_NOT_FOUND( 2003,"问题弄丢啦"),
     TYPE_PARAM_WRONG(2004,"评论类型错误或不存在"),
-    COMMENT_NOT_FOUND(2005,"评论不存在");
+    COMMENT_NOT_FOUND(2005,"评论不存在"),
+    COMMENT_IS_EMPTY(2006,"输入内容为空");
 
 
     private String message;

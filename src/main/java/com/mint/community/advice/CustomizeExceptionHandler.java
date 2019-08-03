@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.servlet.ModelAndView;
+import org.thymeleaf.exceptions.TemplateInputException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -30,14 +31,13 @@ public class CustomizeExceptionHandler {
     public ModelAndView handleException(Exception e, HttpServletRequest request){
         String contentType = request.getContentType();
         CustomizeException customizeException = (CustomizeException) e;
-        request.setAttribute("javax.servlet.error.status_code",400);
         ModelAndView error = new ModelAndView("forward:error");
         ResultDTO<Object> objectResultDTO = new ResultDTO<>();
         objectResultDTO.setStatus(customizeException);
         error.addObject("status", objectResultDTO);
         return error;
     }
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(RuntimeException.class)
     public ModelAndView handle(Exception e){
         ModelAndView error = new ModelAndView("error");
         error.addObject("message", "你看起来像走丢了");

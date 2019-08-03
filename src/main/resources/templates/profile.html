@@ -29,7 +29,7 @@
 						</div>
 						<div class="media-body">
 							<h3 class="media-heading" th:text="${question.getTitle()}">Spring学习</h3>
-							<div class="thread_status" th:text="${question.getComment_count()} + '个回复·'+ ${question.getView_count()}+ '次浏览·' + ${#dates.format(question.gmtCreate, 'MM-dd HH:mm')}"></div>
+							<div class="thread_status" th:text="${question.getCommentCount()} + '个回复·'+ ${question.getViewCount()}+ '次浏览·' + ${#dates.format(question.gmtCreate, 'MM-dd HH:mm')}"></div>
 						</div>
 						<hr>
 					</div>

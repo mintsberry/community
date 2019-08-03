@@ -8,7 +8,6 @@ import com.mint.community.pojo.Question;
 import com.mint.community.pojo.User;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -78,5 +77,13 @@ public class QuestionService {
 
     public void incReaderCount(int id) {
         questionMapper.updViewAdd(id);
+    }
+
+    public List<Question> selRelevantTopics(QuestionDTO question) {
+        int id = question.getId();
+        String tag = question.getTag();
+        String regex = tag.replaceAll(",|，", "|");
+        List<Question> questions = questionMapper.selRelevantQue(id, regex);
+        return questions;
     }
 }

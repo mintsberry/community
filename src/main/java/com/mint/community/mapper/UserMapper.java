@@ -13,8 +13,8 @@ public interface UserMapper {
     void insUsers(User user);
     @Select("select * from users where token = #{token}")
     User selByToken(String token);
-    @Select("select * from users where account_id = #{creator}")
-    User selById(int creator);
+    @Select("select * from users where account_id = #{accountId}")
+    User selById(int accountId);
     @Update("update users set token = #{token} where  account_id = #{accountId}")
     void updTokenById(User user);
 }

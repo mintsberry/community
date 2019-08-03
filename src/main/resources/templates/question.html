@@ -2,13 +2,14 @@
 <html xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<meta charset="UTF-8">
-		<title th:text="${question.title}"></title>
+		<title th:text="${questionDTO.title}"></title>
 		<link th:href="@{/webjars/bootstrap/3.4.1/css/bootstrap.css}" rel="stylesheet">
 		<link th:href="@{/webjars/bootstrap/3.4.1/css/bootstrap-theme.css}" rel="stylesheet">
 		<link th:href="@{/css/community.css}" rel="stylesheet">
 		<!--		jquery引入要早于bootstrap-->
 		<script th:src="@{/webjars/jquery/3.4.1/jquery.js}" type="text/javascript"></script>
 		<script th:src="@{/webjars/bootstrap/3.4.1/js/bootstrap.js}" type="text/javascript"></script>
+		<script th:src="@{/js/community.js}" type="text/javascript"></script>
 	</head>
 	<body>
 		<div th:replace="naviagtion :: head"></div>
@@ -17,37 +18,128 @@
 				<div class="col-lg-9 col-md-12" >
 					<div class="col-lg-12" >
 						<h2>
-							<span th:text="${question.title}"></span>
+							<span th:text="${questionDTO.title}"></span>
 						</h2>
-						<div class="thread_status" th:text="'作者:' + ${question.user.getName()} + ' | ' + ${question.getViewCount()} + '次阅读 | 发布时间' + ${#dates.format(question.gmtCreate, 'MM-dd HH:mm')}"></div>
+						<div class="question_status" th:text="'作者:' + ${questionDTO.user.getName()} + ' | ' + ${questionDTO.getViewCount()} + '次阅读 | 发布时间' + ${#dates.format(questionDTO.gmtCreate, 'MM-dd HH:mm')}"></div>
 						<hr/>
 					</div>
 
 					<div class="col-lg-12">
-						<span  th:text="${question.description}"></span>
+						<span  th:text="${questionDTO.description}"></span>
 						<hr/>
 					</div>
-
 					<div class="col-lg-12" >
-						<a th:href="@{'/publish/' + ${question.id}}" class="commit-menu" th:if="${session.users != null && question.user.accountId == session.users.accountId}" >
+						<span th:each="tag : ${questionDTO.tag.split(',|，')}" >
+							<span class="glyphicon glyphicon-tags label label-info" th:text="'&nbsp;' + ${tag}" style="font-size: 14px">Jva</span>
+						</span>
+						<hr>
+					</div>
+					<div class="col-lg-12" >
+						<a th:href="@{'/publish/' + ${questionDTO.id}}" class="commit-menu" th:if="${session.users != null && questionDTO.user.accountId == session.users.accountId}" >
 							<span class="glyphicon glyphicon-pencil">编辑</span>
 						</a>
+						<hr>
 					</div>
+					<!--回复-->
+					<div class="col-lg-12">
+						<!-- ------------------------------ -->
+						<div th:each="commentDTO : ${commentDTOS}">
+							<div class="media">
+								<div class="media-left">
+									<a href="#">
+										<img class="media-object img-rounded comment_icon" th:src="${commentDTO.user.avatarUrl}">
+									</a>
+								</div>
+								<div class="media-body" th:id="${'comment-body-' + commentDTO.comment.id}">
+									<h5 th:text="${commentDTO.user.name}" style="margin-top: 0px; color: #999"> </h5>
+									<div class="" style="margin-bottom: 10px" th:text="${commentDTO.comment.content}">
+
+									</div>
+									<div>
+										<span class="glyphicon glyphicon-thumbs-up icon"></span>
+										<span class="glyphicon glyphicon-comment icon comment_btn " style="margin-left: 8px"  th:text="${commentDTO.comment.commentCount}" th:data="${commentDTO.comment.id}">
+										</span>
+										<span class="pull-right" style="color: #999" th:text="'回复于 ' + ${#dates.format(commentDTO.comment.gmtCreate, 'MM-dd HH:mm')}"></span>
+									</div>
+<!--									二级回复-->
+									<div class="col-lg-12 collapse tw_section"  th:id="${'comment-' + commentDTO.comment.id}" >
+<!--										<div class="two_lv_comment" th:each="commentDTO : ${commentDTOS}">-->
+<!--											<div class="media">-->
+<!--												<div class="media-left">-->
+<!--													<a href="#">-->
+<!--														<img class="media-object img-rounded comment_icon" th:src="${commentDTO.user.avatarUrl}">-->
+<!--													</a>-->
+<!--												</div>-->
+<!--												<div class="media-body" >-->
+<!--													<h5 th:text="${commentDTO.user.name}" style="margin-top: 0px; color: #999"> </h5>-->
+<!--													<div class="" style="margin-bottom: 10px" th:text="${commentDTO.comment.content}">-->
+
+<!--													</div>-->
+<!--													<div>-->
+<!--														<span class="glyphicon glyphicon-thumbs-up icon"></span>-->
+<!--														<span class="glyphicon glyphicon-comment icon comment_btn" style="margin-left: 8px" th:data="${commentDTO.comment.id}"></span>-->
+<!--														<span class="pull-right" style="color: #999" th:text="'回复于 ' + ${#dates.format(commentDTO.comment.gmtCreate, 'MM-dd HH:mm')}"></span>-->
+<!--													</div>-->
+<!--												</div>-->
+<!--											</div>-->
+<!--											<hr>-->
+<!--										</div>-->
+<!--										<div>-->
+<!--											<input type="text" class="form-control" placeholder="评论一下" name="" th:id="${'content-' + commentDTO.comment.id}">-->
+<!--											<button class="btn btn-success pull-right tw_comment_btn" type="submit" style="margin: 8px 0px" th:data="${commentDTO.comment.id}">回复</button>-->
+<!--										</div>-->
+									</div>
+									<!--									二级回复-->
+								</div>
+							</div>
+							<hr>
+						</div>
+
+						<!-- ------------------------------ -->
+					</div>
+					<div class="col-lg-12" id="comment_frame">
+						<div class="media" th:if="${session.users}">
+							<div class="media-left media-middle">
+								<a href="#">
+									<img class="media-object img-rounded list_icon" th:src="${session.users.getAvatarUrl()}">
+								</a>
+							</div>
+							<div class="media-body" >
+								<h5 th:text="${session.users.name}" style="margin-top: 14px;"> </h5>
+							</div>
+						</div>
+						<input type="hidden" id="questionId" th:value="${questionDTO.id}" class="type">
+						<textarea id="content" class="form-control comment" rows="6"></textarea>
+						<button type="submit" class="btn btn-success pull-right" id="comment">回复</button>
+					</div>
+
 				</div>
 				<div class="col-lg-3 col-md-12 rightTip">
 					<div>发起人</div>
 						<div class="media">
 							<div class="media-left media-middle">
 								<a href="#">
-									<img class="media-object img-rounded list_icon" th:src="${question.getUser().getAvatarUrl()}">
+									<img class="media-object img-rounded list_icon" th:src="${questionDTO.getUser().getAvatarUrl()}">
 								</a>
 							</div>
 							<div class="media-body">
-								<h4 th:text="${question.user.name}"> </h4>
+								<h4 th:text="${questionDTO.user.name}"> </h4>
 							</div>
 						</div>
 					<hr>
-					<div>相关问题</div>
+					<div>
+						<h3>目前不是广告</h3>
+						<img class="img-thumbnail" th:src="@{/images/dark.jpg}">
+					</div>
+					<hr>
+					<div>
+						<h3>相关问题</h3>
+						<ul class="list-unstyled topics">
+							<li th:each=" topic : ${relevantTopics}">
+								<a th:href="@{'/question/' + ${topic.id}}" th:text="${topic.title}"></a>
+							</li>
+						</ul>
+					</div>
 				</div>
 			</div>
 		</div>
