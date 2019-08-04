@@ -2,12 +2,16 @@ package com.mint.community.service;
 
 import com.mint.community.dto.CommentDTO;
 import com.mint.community.enums.CommentTypeEnum;
+import com.mint.community.enums.NotificationEnum;
+import com.mint.community.enums.NotificationStatusEnum;
 import com.mint.community.exception.CustomizeStatusCode;
 import com.mint.community.exception.CustomizeException;
 import com.mint.community.mapper.CommentMapper;
+import com.mint.community.mapper.NotificationMapper;
 import com.mint.community.mapper.QuestionMapper;
 import com.mint.community.mapper.UserMapper;
 import com.mint.community.pojo.Comment;
+import com.mint.community.pojo.Notification;
 import com.mint.community.pojo.Question;
 import com.mint.community.pojo.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +28,14 @@ import java.util.stream.Collectors;
 public class CommentService {
     @Autowired
     private CommentMapper commentMapper;
-
+    @Autowired
+    private NotificationMapper notificationMapper;
     @Autowired
     private QuestionMapper questionMapper;
     @Autowired
     private UserMapper userMapper;
     @Transactional
-    public void insComment(Comment comment) {
+    public void insComment(Comment comment, User user) {
         if (comment == null || comment.getParentId() == 0){
             throw new CustomizeException(CustomizeStatusCode.TARGET_PARAM_NOT_FOUND);
         }
@@ -44,6 +49,8 @@ public class CommentService {
             }
             commentMapper.insComment(comment);
             commentMapper.updCommentAdd(selComment.getId());
+            Question question = questionMapper.selQueById(selComment.getParentId());
+            createNotification(comment, selComment.getCommentator(), user, selComment.getContent(),NotificationEnum.REPLAY_COMMENT,question.getId());
         } else {
             Question question = questionMapper.selQueById(comment.getParentId());
             if (question == null){
@@ -51,7 +58,21 @@ public class CommentService {
             }
             commentMapper.insComment(comment);
             questionMapper.updCommentAdd(question.getId());
+            createNotification(comment, question.getCreator(), user, question.getTitle(),NotificationEnum.REPLAY_QUESTION,question.getId());
         }
+    }
+
+    private void createNotification(Comment comment, int id,User user,String title, NotificationEnum notificationEnum, int queId) {
+        Notification notification = new Notification();
+        notification.setGmtCreate(System.currentTimeMillis());
+        notification.setType(notificationEnum.getType());
+        notification.setOuterid(queId);
+        notification.setNotifier(comment.getCommentator());
+        notification.setStatus(NotificationStatusEnum.UNREAD.getStatus());
+        notification.setReceiver(id);
+        notification.setNotifierName(user.getName());
+        notification.setOuterTitle(title);
+        notificationMapper.insNotification(notification);
     }
 
 //    public List<CommentDTO> selCommentByParentId(int id) {

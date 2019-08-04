@@ -19,19 +19,35 @@
 						<span th:text="${sectionName}"></span>
 					</h2>
 					<hr/>
-
-					<!--/*@thymesVar id="questions" type="com.mint.community.dto.QuestionDTO"*/-->
-					<div class="media" th:each="question : ${pagination.getData()}">
-						<div class="media-left media-middle">
-							<a href="#">
-								<img class="media-object img-rounded list_icon" th:src="${question.getUser().getAvatarUrl()}">
-							</a>
+					<div th:if="${section == 'questions'}">
+						<!--/*@thymesVar id="questions" type="com.mint.community.dto.QuestionDTO"*/-->
+						<div class="media" th:each="question : ${pagination?.getData()}">
+							<div class="media-left media-middle">
+								<a href="#">
+									<img class="media-object img-rounded list_icon" th:src="${question.getUser().getAvatarUrl()}">
+								</a>
+							</div>
+							<div class="media-body">
+								<h3 class="media-heading" th:text="${question.getTitle()}">Spring学习</h3>
+								<span class="thread_status" th:text="${question.getCommentCount()} + '个回复·'+ ${question.getViewCount()}+ '次浏览·' + ${#dates.format(question.gmtCreate, 'MM-dd HH:mm')}+ '·'"></span>
+								<a th:href="@{'/publish/' + ${question.id}}" class="commit-menu" >
+									<span class="glyphicon glyphicon-pencil">编辑</span>
+								</a>
+							</div>
+							<hr>
 						</div>
-						<div class="media-body">
-							<h3 class="media-heading" th:text="${question.getTitle()}">Spring学习</h3>
-							<div class="thread_status" th:text="${question.getCommentCount()} + '个回复·'+ ${question.getViewCount()}+ '次浏览·' + ${#dates.format(question.gmtCreate, 'MM-dd HH:mm')}"></div>
+					</div>
+					<div th:if="${section == 'replies'}" style="margin-left: 12px">
+						<div class="" th:each="notification : ${pagination?.getData()}">
+							<div>
+								<span th:text="${notification?.notifierName}"></span>
+								<span th:text="${notification?.type}"></span>
+								<a th:href="@{'/notification/' + ${notification?.id}}" th:text="${notification?.outerTitle}"></a>
+								<span class="label label-info" th:if="${notification.status == 0}">未读</span>
+								<div th:text="${#dates.format(notification.gmtCreate,'yyyy-MM-dd HH:mm')}"></div>
+								<hr>
+							</div>
 						</div>
-						<hr>
 					</div>
 					<nav aria-label="Page navigation" class="pull-right">
 						<ul class="pagination">
@@ -65,9 +81,9 @@
 				<div class="col-lg-3 col-md-12 profile ">
 					<div class="list-group section">
 						<a th:href="@{/profile/questions}" href="#" class="list-group-item" th:class="${section == 'questions'}?'list-group-item actives':'list-group-item'">
-							<span class="badge">14</span> 我的问题</a>
+							<span class="badge"></span> 我的问题</a>
 						<a th:href="@{/profile/replies}" href="#" class="list-group-item" th:class="${section == 'replies'}?'list-group-item actives':'list-group-item'">
-							最新回复</a>
+							最新回复<span class="badge" th:text="${unreadCount}"></span> </a>
 						<a href="#" class="list-group-item">Morbi leo risus</a>
 						<a href="#" class="list-group-item">Porta ac consectetur ac</a>
 						<a href="#" class="list-group-item">Vestibulum at eros</a>

@@ -18,8 +18,8 @@ public class PaginationDTO {
     public void setPagination() {
     }
 
-    public void setPagination(int count, int page, int size, List<QuestionDTO> questionDTOS) {
-        this.data = questionDTOS;
+    public void setPagination(int count, int page, int size, List<?> list) {
+        this.data = list;
         this.countPage = count % size == 0 ? count / size : count / size + 1;
         if (page < 1){
             page = 1;

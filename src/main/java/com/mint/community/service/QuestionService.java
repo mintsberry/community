@@ -53,7 +53,7 @@ public class QuestionService {
         List<QuestionDTO> questionDTOS = new ArrayList<>();
         PaginationDTO paginationDTO = new PaginationDTO();
         int offset = (page - 1) * size;
-        List<Question> questions = questionMapper.selPageQueByUserId(accountId,offset, size);
+        List<Question> questions = questionMapper.selQuePageByUserId(accountId,offset, size);
         for (Question question : questions) {
             User user = userMapper.selById(question.getCreator());
             QuestionDTO questionDTO = new QuestionDTO();
@@ -61,7 +61,7 @@ public class QuestionService {
             questionDTO.setUser(user);
             questionDTOS.add(questionDTO);
         }
-        int count = questionMapper.selPageCountByUserId(accountId);
+        int count = questionMapper.selQueCountByUserId(accountId);
         paginationDTO.setPagination(count, page, size, questionDTOS);
         return paginationDTO;
     }
@@ -85,5 +85,10 @@ public class QuestionService {
         String regex = tag.replaceAll(",|，", "|");
         List<Question> questions = questionMapper.selRelevantQue(id, regex);
         return questions;
+    }
+
+    public int selQueCount(int accountId) {
+        int i = questionMapper.selQueCountByUserId(accountId);
+        return i;
     }
 }

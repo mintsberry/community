@@ -8,6 +8,7 @@
 <!--		jquery引入要早于bootstrap-->
 		<script th:src="@{/webjars/jquery/3.4.1/jquery.js}" type="text/javascript"></script>
 		<script th:src="@{/webjars/bootstrap/3.4.1/js/bootstrap.js}" type="text/javascript"></script>
+		<script th:src="@{/js/community.js}" type="text/javascript"></script>
 	</head>
 	<body>
 		<div th:replace="naviagtion :: head"></div>
@@ -31,7 +32,15 @@
 						</div>
 						<div class="form-group">
 							<label for="tag">添加标签</label>
-							<input type="text" class="form-control" id="tag" name="tag" placeholder="输入标签" th:value="${question?.tag}">
+							<input type="text" class="form-control" id="tag" name="tag" placeholder="输入标签" th:value="${question?.tag}" autocomplete="off" readonly>
+							<div class="tags">
+								<span class="glyphicon glyphicon-tags label label-info tag">&thinsp;Java</span>
+								<span class="glyphicon glyphicon-tags label label-info tag">&thinsp;Web</span>
+								<span class="glyphicon glyphicon-tags label label-info tag">&thinsp;Spring</span>
+								<span class="glyphicon glyphicon-tags label label-info tag">&thinsp;Html</span>
+								<span class="glyphicon glyphicon-tags label label-info tag">&thinsp;Javascript</span>
+								<span class="glyphicon glyphicon-tags label label-info tag">&thinsp;Vue</span>
+							</div>
 						</div>
 						<span th:if="${msg} != null" th:text="${msg}" class="alert alert-info col-lg-2 text-center" style="padding: 10px"></span>
 						<input type="submit" class="btn btn-success pull-right" value="发布">

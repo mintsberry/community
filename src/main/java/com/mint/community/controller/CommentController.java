@@ -37,7 +37,7 @@ public class CommentController {
             comment.setGmtModified(System.currentTimeMillis());
             comment.setGmtCreate(System.currentTimeMillis());
             comment.setCommentator(user.getAccountId());
-            commentService.insComment(comment);
+            commentService.insComment(comment, user);
             resultDTO.setStatus(CustomizeStatusCode.SUCCESS);
             resultDTO.setData(comment);
         }

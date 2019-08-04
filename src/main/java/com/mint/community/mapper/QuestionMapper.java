@@ -21,9 +21,9 @@ public interface QuestionMapper {
     @Select("select count(*) from question")
     int selPageCount();
     @Select("select * from question where creator = #{accountId} ORDER BY gmt_create desc limit #{offset},#{size} ")
-    List<Question> selPageQueByUserId(int accountId, int offset, int size);
+    List<Question> selQuePageByUserId(int accountId, int offset, int size);
     @Select("select count(*) from question where creator = #{accountId} ")
-    int selPageCountByUserId(int accountId);
+    int selQueCountByUserId(int accountId);
     @Select("select * from question where id = #{id}")
     Question selQueById(int id);
     @Update("update question set title = #{title}, description = #{description}, tag = #{tag}, gmt_modified = #{gmtModified}  where id = #{id}")
@@ -34,4 +34,5 @@ public interface QuestionMapper {
     void updCommentAdd(int id);
     @Select("select * from question where tag regexp #{regex} and id != #{id}")
     List<Question> selRelevantQue(int id, String regex);
+
 }

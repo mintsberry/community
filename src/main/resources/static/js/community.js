@@ -78,7 +78,18 @@ $(function () {
     });
 
 
-
+    $(".tag").click(function () {
+        var tags = $("#tag").val();
+        var tag = $(this).text().trim();
+        var index = tags.indexOf(tag);
+        if (index == -1){
+            if (tags){
+                $("#tag").val(tags + "," + tag);
+            } else {
+                $("#tag").val(tag);
+            }
+        }
+    })
 
 
 
